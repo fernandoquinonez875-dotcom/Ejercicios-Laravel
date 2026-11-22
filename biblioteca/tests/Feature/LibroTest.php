@@ -22,6 +22,7 @@ class LibroTest extends TestCase
 
         $this->post(route('libros.store'), [])->assertRedirect(route('login'));
         $this->put(route('libros.update', $libro->id), [])->assertRedirect(route('login'));
+        $this->delete(route('libros.destroy', $libro->id))->assertRedirect(route('login'));
         $this->assertDatabaseCount('libros', 1);
     }
 
@@ -79,11 +80,32 @@ class LibroTest extends TestCase
         $this->assertDatabaseHas('libros', ['id' => $libro->id, 'codigo' => $libro->codigo]);
     }
 
+    public function test_users_can_delete_the_selected_book_from_the_list(): void
+    {
+        $libro = Libro::factory()->create();
+        $otroLibro = Libro::factory()->create();
+
+        $this->actingAs(User::factory()->create())
+            ->get(route('libros.index'))
+            ->assertOk()
+            ->assertSee('action="'.route('libros.destroy', $libro->id).'"', false)
+            ->assertSee('name="_method" value="DELETE"', false);
+
+        $this->delete(route('libros.destroy', $libro->id))
+            ->assertRedirect(route('libros.index'))
+            ->assertSessionHas('exito', 'Libro eliminado correctamente.');
+
+        $this->assertDatabaseMissing('libros', ['id' => $libro->id]);
+        $this->assertDatabaseHas('libros', ['id' => $otroLibro->id]);
+        $this->get(route('libros.index'))->assertOk()->assertDontSee($libro->codigo);
+    }
+
     public function test_missing_books_return_not_found(): void
     {
         $this->actingAs(User::factory()->create());
 
         $this->get(route('libros.edit', 999))->assertNotFound();
         $this->put(route('libros.update', 999), [])->assertNotFound();
+        $this->delete(route('libros.destroy', 999))->assertNotFound();
     }
 }

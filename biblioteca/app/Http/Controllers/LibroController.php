@@ -10,7 +10,6 @@ class LibroController extends Controller
 {
     public function index()
     {
-
         $libros = Libro::orderBy('id')->get();
 
         return view('libros.index', ['libros' => $libros]);
@@ -72,5 +71,14 @@ class LibroController extends Controller
 
         return redirect()->route('libros.index')
             ->with('exito', 'Libro actualizado correctamente.');
+    }
+
+    public function destroy(int $id)
+    {
+        $libro = Libro::findOrFail($id);
+        $libro->delete();
+
+        return redirect()->route('libros.index')
+            ->with('exito', 'Libro eliminado correctamente.');
     }
 }
