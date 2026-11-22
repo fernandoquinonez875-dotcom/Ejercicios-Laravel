@@ -1,7 +1,8 @@
 <?php
 
-// Cascaron Inventario, etapa 1
+// Cascaron Inventario, etapa 2
 
+use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,12 @@ Route::post('/login', [LoginController::class, 'store'])
     ->middleware('throttle:6,1')->name('login.store');
 
 Route::middleware('auth')->group(function () {
-    Route::view('/inicio', 'inicio')->name('inicio');
+    Route::get('/inicio', function () {
+        return redirect()->route('productos.index');
+    })->name('inicio');
+
+    Route::get('/productos', [ProductoController::class, 'index'])
+        ->name('productos.index');
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
