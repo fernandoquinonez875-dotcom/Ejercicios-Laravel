@@ -97,6 +97,9 @@ class AuthenticationTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user)->get(route('inicio'))
+            ->assertRedirect(route('libros.index'));
+
+        $this->get(route('libros.index'))
             ->assertOk()
             ->assertSee($user->name)
             ->assertSee('Cerrar sesión');
