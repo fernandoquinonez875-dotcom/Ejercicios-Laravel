@@ -18,6 +18,17 @@ class="font-sans antialiased">
     </form>
 @endauth
     <div id="app">
+        @if (session('exito'))
+    <p>{{ session('exito') }}</p>
+@endif
+
+@if ($errors->any())
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+@endif
         @yield('content')
     </div>
 </body>
