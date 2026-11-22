@@ -64,4 +64,12 @@ class ProductoController extends Controller
 
         return redirect()->route('productos.index')->with('exito', 'Producto actualizado correctamente.');
     }
+
+    public function destroy(int $id)
+    {
+        $producto = Producto::findOrFail($id);
+        $producto->delete();
+
+        return redirect()->route('productos.index')->with('exito', 'Producto eliminado correctamente.');
+    }
 }

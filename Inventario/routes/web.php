@@ -1,6 +1,6 @@
 <?php
 
-// Cascaron Inventario, etapa 4
+// Cascaron Inventario, etapa 5
 
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\LoginController;
@@ -31,6 +31,9 @@ Route::middleware('auth')->group(function () {
         ->whereNumber('id')->name('productos.edit');
     Route::put('/productos/{id}', [ProductoController::class, 'update'])
         ->whereNumber('id')->name('productos.update');
+
+    Route::delete('/productos/{id}', [ProductoController::class, 'destroy'])
+        ->whereNumber('id')->name('productos.destroy');
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
