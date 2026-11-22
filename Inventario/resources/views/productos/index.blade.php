@@ -3,6 +3,8 @@
 @section('contenido')
     <h1>Productos registrados</h1>
 
+    <p><a href="{{ route('productos.create') }}">Crear producto</a></p>
+
     <table>
         <thead>
             <tr>
