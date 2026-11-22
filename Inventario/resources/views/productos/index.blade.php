@@ -15,6 +15,7 @@
                 <th>Existencias</th>
                 <th>Creado</th>
                 <th>Actualizado</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -27,10 +28,13 @@
                     <td>{{ (int) $producto->existencias === 0 ? 'Sin existencias' : $producto->existencias }}</td>
                     <td>{{ $producto->created_at }}</td>
                     <td>{{ $producto->updated_at }}</td>
+                    <td>
+                        <a href="{{ route('productos.edit', $producto->id) }}">Editar</a>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7">No hay productos registrados.</td>
+                    <td colspan="8">No hay productos registrados.</td>
                 </tr>
             @endforelse
         </tbody>
