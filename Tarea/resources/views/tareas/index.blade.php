@@ -16,6 +16,7 @@
                 <th>Estado</th>
                 <th>Creado</th>
                 <th>Actualizado</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -29,10 +30,13 @@
                     <td>{{ $tarea->estado }}</td>
                     <td>{{ $tarea->created_at }}</td>
                     <td>{{ $tarea->updated_at }}</td>
+                    <td>
+                        <a href="{{ route('tareas.edit', $tarea->id) }}">Editar</a>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8">No hay tareas registradas.</td>
+                    <td colspan="9">No hay tareas registradas.</td>
                 </tr>
             @endforelse
         </tbody>

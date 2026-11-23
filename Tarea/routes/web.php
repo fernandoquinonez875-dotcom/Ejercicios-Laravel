@@ -1,6 +1,6 @@
 <?php
 
-// Cascaron Tareas, etapa 3
+// Cascaron Tareas, etapa 4
 
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\LoginController;
@@ -26,6 +26,11 @@ Route::middleware('auth')->group(function () {
         ->name('tareas.create');
     Route::post('/tareas', [TareaController::class, 'store'])
         ->name('tareas.store');
+
+    Route::get('/tareas/{id}/editar', [TareaController::class, 'edit'])
+        ->whereNumber('id')->name('tareas.edit');
+    Route::put('/tareas/{id}', [TareaController::class, 'update'])
+        ->whereNumber('id')->name('tareas.update');
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
