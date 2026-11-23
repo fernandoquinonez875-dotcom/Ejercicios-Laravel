@@ -1,6 +1,6 @@
 <?php
 
-// Cascaron Veterinaria, etapa 3
+// Cascaron Veterinaria, etapa 4
 
 use App\Http\Controllers\MascotaController;
 use App\Http\Controllers\LoginController;
@@ -26,6 +26,11 @@ Route::middleware('auth')->group(function () {
         ->name('mascotas.create');
     Route::post('/mascotas', [MascotaController::class, 'store'])
         ->name('mascotas.store');
+
+    Route::get('/mascotas/{id}/editar', [MascotaController::class, 'edit'])
+        ->whereNumber('id')->name('mascotas.edit');
+    Route::put('/mascotas/{id}', [MascotaController::class, 'update'])
+        ->whereNumber('id')->name('mascotas.update');
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });

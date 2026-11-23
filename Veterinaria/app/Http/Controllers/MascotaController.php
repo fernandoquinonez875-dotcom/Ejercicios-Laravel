@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mascota;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class MascotaController extends Controller
 {
@@ -38,5 +39,33 @@ class MascotaController extends Controller
         $mascota->save();
 
         return redirect()->route('mascotas.index')->with('exito', 'Mascota creada correctamente.');
+    }
+
+    public function edit(int $id)
+    {
+        $mascota = Mascota::findOrFail($id);
+
+        return view('mascotas.edit', ['mascota' => $mascota]);
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $mascota = Mascota::findOrFail($id);
+        $datos = $request->validate([
+            'codigo' => ['required', 'string', 'max:255', Rule::unique('mascotas', 'codigo')->ignore($mascota)],
+            'nombre' => ['required', 'string', 'max:80'],
+            'especie' => ['required', 'in:perro,gato,otro'],
+            'propietario' => ['required', 'string', 'max:100'],
+            'fecha_nacimiento' => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
+        ]);
+
+        $mascota->codigo = $datos['codigo'];
+        $mascota->nombre = $datos['nombre'];
+        $mascota->especie = $datos['especie'];
+        $mascota->propietario = $datos['propietario'];
+        $mascota->fecha_nacimiento = $datos['fecha_nacimiento'];
+        $mascota->save();
+
+        return redirect()->route('mascotas.index')->with('exito', 'Mascota actualizada correctamente.');
     }
 }

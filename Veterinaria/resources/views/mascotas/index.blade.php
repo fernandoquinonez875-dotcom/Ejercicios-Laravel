@@ -16,6 +16,7 @@
                 <th>Fecha de nacimiento</th>
                 <th>Creado</th>
                 <th>Actualizado</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -29,10 +30,13 @@
                     <td>{{ \Illuminate\Support\Carbon::parse($mascota->fecha_nacimiento)->format('d/m/Y') }}</td>
                     <td>{{ $mascota->created_at }}</td>
                     <td>{{ $mascota->updated_at }}</td>
+                    <td>
+                        <a href="{{ route('mascotas.edit', $mascota->id) }}">Editar</a>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8">No hay mascotas registradas.</td>
+                    <td colspan="9">No hay mascotas registradas.</td>
                 </tr>
             @endforelse
         </tbody>
