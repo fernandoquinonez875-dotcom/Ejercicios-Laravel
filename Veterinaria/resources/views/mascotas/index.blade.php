@@ -3,6 +3,8 @@
 @section('contenido')
     <h1>Mascotas registradas</h1>
 
+    <p><a href="{{ route('mascotas.create') }}">Crear mascota</a></p>
+
     <table>
         <thead>
             <tr>
