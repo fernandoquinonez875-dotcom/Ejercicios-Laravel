@@ -15,6 +15,7 @@
                 <th>Fecha de nacimiento</th>
                 <th>Creado</th>
                 <th>Actualizado</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -27,10 +28,13 @@
                     <td>{{ \Illuminate\Support\Carbon::parse($estudiante->fecha_nacimiento)->format('d/m/Y') }}</td>
                     <td>{{ $estudiante->created_at }}</td>
                     <td>{{ $estudiante->updated_at }}</td>
+                    <td>
+                        <a href="{{ route('estudiantes.edit', $estudiante->id) }}">Editar</a>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7">No hay estudiantes registrados.</td>
+                    <td colspan="8">No hay estudiantes registrados.</td>
                 </tr>
             @endforelse
         </tbody>

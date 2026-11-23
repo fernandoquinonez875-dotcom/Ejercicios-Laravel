@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class EstudianteController extends Controller
 {
@@ -36,5 +37,31 @@ class EstudianteController extends Controller
         $estudiante->save();
 
         return redirect()->route('estudiantes.index')->with('exito', 'Estudiante creado correctamente.');
+    }
+
+    public function edit(int $id)
+    {
+        $estudiante = Estudiante::findOrFail($id);
+
+        return view('estudiantes.edit', ['estudiante' => $estudiante]);
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $estudiante = Estudiante::findOrFail($id);
+        $datos = $request->validate([
+            'numero_cuenta' => ['required', 'string', 'max:255', Rule::unique('estudiantes', 'numero_cuenta')->ignore($estudiante)],
+            'nombre' => ['required', 'string', 'max:100'],
+            'correo' => ['required', 'email', 'max:255', Rule::unique('estudiantes', 'correo')->ignore($estudiante)],
+            'fecha_nacimiento' => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
+        ]);
+
+        $estudiante->numero_cuenta = $datos['numero_cuenta'];
+        $estudiante->nombre = $datos['nombre'];
+        $estudiante->correo = $datos['correo'];
+        $estudiante->fecha_nacimiento = $datos['fecha_nacimiento'];
+        $estudiante->save();
+
+        return redirect()->route('estudiantes.index')->with('exito', 'Estudiante actualizado correctamente.');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-// Cascaron Estudiantes, etapa 3
+// Cascaron Estudiantes, etapa 4
 
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\LoginController;
@@ -26,6 +26,11 @@ Route::middleware('auth')->group(function () {
         ->name('estudiantes.create');
     Route::post('/estudiantes', [EstudianteController::class, 'store'])
         ->name('estudiantes.store');
+
+    Route::get('/estudiantes/{id}/editar', [EstudianteController::class, 'edit'])
+        ->whereNumber('id')->name('estudiantes.edit');
+    Route::put('/estudiantes/{id}', [EstudianteController::class, 'update'])
+        ->whereNumber('id')->name('estudiantes.update');
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
