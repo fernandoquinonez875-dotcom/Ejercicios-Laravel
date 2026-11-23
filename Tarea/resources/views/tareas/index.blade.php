@@ -3,6 +3,8 @@
 @section('contenido')
     <h1>Tareas registradas</h1>
 
+    <p><a href="{{ route('tareas.create') }}">Crear tarea</a></p>
+
     <table>
         <thead>
             <tr>
